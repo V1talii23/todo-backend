@@ -1,0 +1,90 @@
+import Task from '../models/task.js';
+import createHttpError from 'http-errors';
+
+const getTasks = async (req, res) => {
+  const {
+    page = 1,
+    perPage = 10,
+    status,
+    search,
+    sortBy,
+    sortOrder,
+  } = req.query;
+
+  const skip = (page - 1) * perPage;
+
+  const tasksQuery = Task.find();
+
+  if (search) {
+    tasksQuery.where({
+      $or: [
+        { title: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } },
+      ],
+    });
+  }
+
+  if (status) {
+    tasksQuery.where('status').equals(status);
+  }
+
+  const [totalItems, tasks] = await Promise.all([
+    tasksQuery.clone().countDocuments(),
+    tasksQuery
+      .skip(skip)
+      .limit(perPage)
+      .sort({ [sortBy]: sortOrder }),
+  ]);
+
+  const totalPages = Math.ceil(totalItems / perPage);
+
+  res.status(200).json({
+    page,
+    perPage,
+    totalPages,
+    totalItems,
+    tasks,
+  });
+};
+
+const getTaskById = async (req, res, next) => {
+  const { taskId } = req.params;
+  const task = await Task.findById(taskId);
+
+  if (!task) {
+    return next(createHttpError(404, 'Task not found'));
+  }
+
+  res.status(200).json(task);
+};
+
+const createTask = async (req, res) => {
+  const task = await Task.create(req.body);
+  res.status(201).json(task);
+};
+
+const deleteTask = async (req, res, next) => {
+  const { taskId } = req.params;
+  const task = await Task.findByIdAndDelete({ _id: taskId });
+
+  if (!task) {
+    return next(createHttpError(404, 'Task not found'));
+  }
+
+  res.status(200).json(task);
+};
+
+const updateTask = async (req, res, next) => {
+  const { taskId } = req.params;
+  const task = await Task.findByIdAndUpdate({ _id: taskId }, req.body, {
+    new: true,
+  });
+
+  if (!task) {
+    return next(createHttpError(404, 'Task not found'));
+  }
+
+  res.status(200).json(task);
+};
+
+export { getTasks, getTaskById, createTask, deleteTask, updateTask };
