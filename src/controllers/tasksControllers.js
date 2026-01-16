@@ -24,7 +24,7 @@ const getTasks = async (req, res) => {
     });
   }
 
-  if (status) {
+  if (status === 'done' || status === 'undone') {
     tasksQuery.where('status').equals(status);
   }
 
