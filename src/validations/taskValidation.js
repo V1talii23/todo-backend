@@ -58,7 +58,7 @@ const getTasksSchema = {
   [Segments.QUERY]: Joi.object({
     page: Joi.number().integer().min(1).default(1),
     perPage: Joi.number().integer().min(5).max(20).default(10),
-    status: Joi.string().valid('done', 'undone'),
+    status: Joi.string().valid('done', 'undone', ''),
     search: Joi.string().trim().allow(''),
     sortBy: Joi.string().valid('_id', 'title', 'priority').default('_id'),
     sortOrder: Joi.string().valid('asc', 'desc').default('asc'),
