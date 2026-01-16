@@ -17,7 +17,7 @@ const createTaskSchema = {
       'any.required': 'Description is required',
     }),
 
-    status: Joi.string().valid('done', 'undone').messages({
+    status: Joi.string().valid('done', 'undone', '').messages({
       'any.base': 'Status must have one of the values: done, undone or empty',
     }),
 
