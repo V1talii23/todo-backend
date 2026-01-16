@@ -18,7 +18,7 @@ const createTaskSchema = {
     }),
 
     status: Joi.string().valid('done', 'undone').messages({
-      'boolean.base': 'Status must have one of the values: done or undone',
+      'any.base': 'Status must have one of the values: done, undone or empty',
     }),
 
     priority: Joi.number().integer().min(1).max(10).messages({
