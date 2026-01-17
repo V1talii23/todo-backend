@@ -1,15 +1,32 @@
 import Task from '../models/task.js';
 import createHttpError from 'http-errors';
 
-const getTasks = async (req, res) => {
+const getTasks = async (req, res, next) => {
   const {
     page = 1,
     perPage = 10,
     status,
     search,
-    sortBy,
-    sortOrder,
+    sortBy = 'priority',
+    sortOrder = 'asc',
   } = req.query;
+
+  const allowedSortFields = [
+    'priority',
+    'title',
+    'status',
+    'createdAt',
+    'updatedAt',
+  ];
+
+  if (!allowedSortFields.includes(sortBy)) {
+    return next(
+      createHttpError(
+        400,
+        `Invalid sortBy field. Allowed fields: ${allowedSortFields.join(', ')}`,
+      ),
+    );
+  }
 
   const skip = (page - 1) * perPage;
 

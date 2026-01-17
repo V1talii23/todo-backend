@@ -21,7 +21,7 @@ const createTaskSchema = {
       'any.base': 'Status must have one of the values: done, undone or empty',
     }),
 
-    priority: Joi.number().integer().min(1).max(10).messages({
+    priority: Joi.number().integer().min(1).max(10).required().messages({
       'number.base': 'Priority must be a number',
       'number.min': 'Priority must be a number beetwen 1 to 10 ',
       'number.max': 'Priority must be a number beetwen 1 to 10 ',
