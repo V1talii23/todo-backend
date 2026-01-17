@@ -60,7 +60,9 @@ const getTasksSchema = {
     perPage: Joi.number().integer().min(5).max(20).default(10),
     status: Joi.string().valid('done', 'undone', ''),
     search: Joi.string().trim().allow(''),
-    sortBy: Joi.string().valid('_id', 'title', 'priority').default('_id'),
+    sortBy: Joi.string()
+      .valid('_id', 'title', 'priority', 'createdAt', 'updatedAt')
+      .default('_id'),
     sortOrder: Joi.string().valid('asc', 'desc').default('asc'),
   }),
 };
