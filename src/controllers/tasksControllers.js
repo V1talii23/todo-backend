@@ -33,7 +33,7 @@ const getTasks = async (req, res) => {
     tasksQuery
       .skip(skip)
       .limit(perPage)
-      .sort({ [sortBy]: sortOrder }),
+      .sort({ [sortBy]: sortOrder === 'asc' ? 1 : -1 }),
   ]);
 
   const totalPages = Math.ceil(totalItems / perPage);
