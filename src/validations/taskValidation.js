@@ -3,14 +3,14 @@ import { isValidObjectId } from 'mongoose';
 
 const createTaskSchema = {
   [Segments.BODY]: Joi.object({
-    title: Joi.string().min(3).max(30).required().messages({
+    title: Joi.string().min(3).max(40).required().messages({
       'string.base': 'Title must be a string',
       'string.min': 'Title should have at least {#limit} characters',
       'string.max': 'Title should have at most {#limit} characters',
       'any.required': 'Title is required',
     }),
 
-    description: Joi.string().min(3).max(200).required().messages({
+    description: Joi.string().min(3).max(250).required().messages({
       'string.base': 'Description must be a string',
       'string.min': 'Description should have at least {#limit} characters',
       'string.max': 'Description should have at most {#limit} characters',
@@ -47,8 +47,8 @@ const updateTaskSchema = {
     taskId: Joi.string().custom(objectIdValidator).required(),
   }),
   [Segments.BODY]: Joi.object({
-    title: Joi.string().min(3).max(30),
-    description: Joi.string().min(3).max(200),
+    title: Joi.string().min(3).max(40),
+    description: Joi.string().min(3).max(250),
     status: Joi.string().valid('done', 'undone'),
     priority: Joi.number().integer().min(1).max(10),
   }).min(1),
