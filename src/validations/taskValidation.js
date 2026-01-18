@@ -17,8 +17,8 @@ const createTaskSchema = {
       'any.required': 'Description is required',
     }),
 
-    status: Joi.string().valid('done', 'undone', '').messages({
-      'any.base': 'Status must have one of the values: done, undone or empty',
+    status: Joi.string().valid('done', 'undone', 'all').messages({
+      'any.base': 'Status must have one of the values: done, undone or all',
     }),
 
     priority: Joi.number().integer().min(1).max(10).required().messages({
@@ -58,7 +58,7 @@ const getTasksSchema = {
   [Segments.QUERY]: Joi.object({
     page: Joi.number().integer().min(1).default(1),
     perPage: Joi.number().integer().min(5).max(20).default(10),
-    status: Joi.string().valid('done', 'undone', ''),
+    status: Joi.string().valid('done', 'undone', 'all'),
     search: Joi.string().trim().allow(''),
     sortBy: Joi.string()
       .valid('_id', 'title', 'priority', 'createdAt', 'updatedAt')

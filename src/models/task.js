@@ -14,8 +14,8 @@ const taskSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ['done', 'undone', ''],
-      default: '',
+      enum: ['done', 'undone', 'all'],
+      default: 'all',
     },
     priority: {
       type: Number,

@@ -5,8 +5,8 @@ const getTasks = async (req, res, next) => {
   const {
     page = 1,
     perPage = 10,
-    status,
-    search,
+    status = 'all',
+    search = '',
     sortBy = 'priority',
     sortOrder = 'asc',
   } = req.query;
